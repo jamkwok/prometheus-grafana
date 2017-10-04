@@ -89,7 +89,7 @@ data "aws_route53_zone" "selected" {
 resource "aws_route53_record" "GrafanaDomain" {
   depends_on = ["aws_instance.grafana"]
   zone_id = "${data.aws_route53_zone.selected.zone_id}"
-  name    = "grafana.${var.dnsApex}"
+  name    = "prometheus-grafana.${var.dnsApex}"
   type    = "A"
   ttl     = "300"
   records = ["${aws_instance.grafana.public_ip}"]
