@@ -19,9 +19,9 @@ provider "aws" {
   region = "${var.regionId}"
 }
 
-resource "aws_security_group" "allow_ssh_http_graphana" {
-  name        = "allow_ssh_http_graphanas_${var.environment}"
-  description = "Allow all inbound traffic for graphana"
+resource "aws_security_group" "allow_ssh_http_grafana" {
+  name        = "allow_ssh_http_grafanas_${var.environment}"
+  description = "Allow all inbound traffic for grafana"
 
   ingress {
     from_port   = 22
@@ -58,13 +58,13 @@ resource "aws_security_group" "allow_ssh_http_graphana" {
   }
 }
 
-resource "aws_instance" "graphana" {
-  depends_on = ["aws_security_group.allow_ssh_http_graphana"]
+resource "aws_instance" "grafana" {
+  depends_on = ["aws_security_group.allow_ssh_http_grafana"]
   ami           = "ami-e2021d81"
   availability_zone = "${var.regionId}a"
   key_name = "${var.sshKey}"
   instance_type = "t2.micro"
-  security_groups = [ "${aws_security_group.allow_ssh_http_graphana.name}" ]
+  security_groups = [ "${aws_security_group.allow_ssh_http_grafana.name}" ]
   user_data = "${file("userdata.sh")}"
   root_block_device {
     volume_size = 20
@@ -86,6 +86,6 @@ resource "aws_instance" "graphana" {
     create_before_destroy = true
   }
   tags {
-    Name = "${var.environment}-graphana"
+    Name = "${var.environment}-grafana"
   }
 }
