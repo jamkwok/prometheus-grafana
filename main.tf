@@ -31,8 +31,8 @@ resource "aws_security_group" "allow_ssh_http_graphana" {
   }
 
   ingress {
-    from_port   = 80
-    to_port     = 80
+    from_port   = 3000
+    to_port     = 3000
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
@@ -63,7 +63,7 @@ resource "aws_instance" "graphana" {
   ami           = "ami-e2021d81"
   availability_zone = "${var.regionId}a"
   key_name = "${var.sshKey}"
-  instance_type = "t2.medium"
+  instance_type = "t2.micro"
   security_groups = [ "${aws_security_group.allow_ssh_http_graphana.name}" ]
   user_data = "${file("userdata.sh")}"
   root_block_device {
