@@ -12,6 +12,9 @@ variable "regionId" {
 variable "myIp" {
   type = "string"
 }
+variable "dnsApex" {
+  type = "string"
+}
 
 //Mapping
 
@@ -69,23 +72,25 @@ resource "aws_instance" "grafana" {
   root_block_device {
     volume_size = 20
   }
-  /*
-  provisioner "remote-exec" {
-    inline = [
-      "sudo apt-get upgrade",
-      "echo $(date) > /tmp/flag"
-    ]
-    connection {
-      type     = "ssh"
-      user     = "ubuntu"
-      private_key = "${file("/Users/jameskwok/.ssh/JamesKwok.pem")}"
-    }
-  }
-  */
+
   lifecycle {
     create_before_destroy = true
   }
   tags {
     Name = "${var.environment}-grafana"
   }
+}
+
+data "aws_route53_zone" "selected" {
+  name         = "${var.dnsApex}."
+  private_zone = false
+}
+
+resource "aws_route53_record" "GrafanaDomain" {
+  depends_on = ["aws_instance.LetsEncrypt"]
+  zone_id = "${data.aws_route53_zone.selected.zone_id}"
+  name    = "letsencrypt.${var.dnsApex}"
+  type    = "A"
+  ttl     = "300"
+  records = ["${aws_instance.grafana.public_ip}"]
 }
