@@ -48,6 +48,13 @@ resource "aws_security_group" "allow_ssh_http_grafana" {
   }
 
   ingress {
+    from_port   = 9091
+    to_port     = 9091
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
     from_port   = 9100
     to_port     = 9100
     protocol    = "tcp"
