@@ -16,7 +16,7 @@ global:
 scrape_configs:
   - job_name: 'prometheus'
     static_configs:
-      - targets: ['localhost:9100']
+      - targets: ['prometheus-grafana.siteminderlabs.com:9100']
 
 EOF
 #Run Prometheus

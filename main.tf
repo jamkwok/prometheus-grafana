@@ -47,6 +47,13 @@ resource "aws_security_group" "allow_ssh_http_grafana" {
     cidr_blocks = ["${var.myIp}"]
   }
 
+  ingress {
+    from_port   = 9100
+    to_port     = 9100
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
 
   //Required to allow outbound internet connection for user_data
   egress {
