@@ -58,7 +58,7 @@ resource "aws_security_group" "allow_ssh_http_grafana" {
   //Required to allow outbound internet connection for user_data
   egress {
     from_port   = 80
-    to_port     = 443
+    to_port     = 60000s
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
