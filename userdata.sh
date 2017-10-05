@@ -13,7 +13,7 @@ docker run -d -p 9091:9091 prom/pushgateway
 # Timeout raised to 30s due to docker prometheus issue
 cat <<EOF > prometheus.yml
 global:
-  scrape_interval:     30s
+  scrape_interval: 30s
   evaluation_interval: 30s
   scrape_timeout: 30s
 
